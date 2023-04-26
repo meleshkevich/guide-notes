@@ -1,5 +1,5 @@
-<script lang="ts" setup>
-const { signOut, isLoggedIn } = useAuth();
+<script setup>
+const { signOut, isLoggedIn, user } = useAuth();
 </script>
 <template>
   <nav>
@@ -8,7 +8,9 @@ const { signOut, isLoggedIn } = useAuth();
         <NuxtLink to="/"> Home </NuxtLink>
       </li>
       <li v-if="isLoggedIn()"><NuxtLink to="/profile"> Profile </NuxtLink></li>
-      <li v-if="isLoggedIn()" class="logout" @click="signOut">Logout</li>
+      <li v-if="isLoggedIn()" class="logout" @click="signOut">
+        Logout, {{ user.identities[0].identity_data.email }}
+      </li>
     </ul>
   </nav>
 </template>

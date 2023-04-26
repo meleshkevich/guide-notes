@@ -1,5 +1,5 @@
-<script setup lang="ts">
-const authState = ref<"login" | "singup">("login");
+<script setup>
+const authState = (ref < "login") | ("singup" > "login");
 const authError = ref("");
 const showEmailConfirmMessage = ref(false);
 const input = reactive({

@@ -1,14 +1,28 @@
-<script lang="ts" setup>
+<script setup>
 const notesInput = reactive({
   title: "",
   note: "",
 });
+
+const { supabase } = useSupabase();
+const { user } = useAuth();
+
+const handleSubmit = async () => {
+  if (!notesInput.title || !notesInput.note) return;
+  await supabase.from("notes").insert({
+    title: notesInput.title,
+    note: notesInput.note,
+    user_id: user.value.id,
+  });
+  notesInput.title = "";
+  notesInput.note = "";
+};
 </script>
 <template>
   <NCard class="card">
     <input v-model="notesInput.title" placeholder="Notes title" />
     <textarea v-model="notesInput.note" placeholder="My notes"></textarea>
-    <NButton>Save notes</NButton>
+    <NButton @click="handleSubmit">Save notes</NButton>
   </NCard>
 </template>
 <style scoped>
