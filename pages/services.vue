@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="container">
-      <h3>My Notes</h3>
-      <NotesForm />
+      <h3>Available services</h3>
+
       <div class="card-container" v-if="notesResponse.data">
         <el-card class="card" v-for="note in notesResponse.data" :key="note.id">
-          <h2>{{ note.title }}</h2>
-          <p>{{ note.note }}</p>
+          <h2>{{ note.sailing }}</h2>
+          <p>{{ note.service }}</p>
           <p class="delete" @click="deleteNote(note.id)">X - delete</p>
         </el-card>
       </div>
@@ -17,7 +17,7 @@
 const { supabase } = useSupabase();
 const { user } = useAuth();
 const notesResponse = ref({});
-
+definePageMeta({ middleware: "auth" });
 if (process.client) {
   notesResponse.value = await supabase;
   // show notes from current user
@@ -32,7 +32,6 @@ const deleteNote = async (e) => {
   await supabase.from("notes").delete().eq("id", e);
   console.log(e, "delete note");
 };
-definePageMeta({ middleware: "auth" });
 </script>
 
 <style scoped>

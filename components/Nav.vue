@@ -4,7 +4,9 @@
       <li>
         <NuxtLink to="/"> Home </NuxtLink>
       </li>
-      <li v-if="isLoggedIn()"><NuxtLink to="/profile"> Profile </NuxtLink></li>
+      <li v-if="isLoggedIn()">
+        <NuxtLink to="/services"> Service List </NuxtLink>
+      </li>
       <li v-if="admin">
         <NuxtLink to="/admin"> Admin </NuxtLink>
       </li>

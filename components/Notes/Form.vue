@@ -1,32 +1,52 @@
 <template>
   <el-card class="card">
-    <el-input v-model="notesInput.title" placeholder="Notes title" />
     <el-input
-      type="textarea"
-      v-model="notesInput.note"
-      placeholder="My notes"
+      class="card-input"
+      v-model="notesInput.sailing"
+      placeholder="Sailing"
+    />
+    <el-input
+      class="card-input"
+      v-model="notesInput.date"
+      placeholder="Date"
     ></el-input>
-    <el-button type="primary" @click="handleSubmit">Save notes</el-button>
+    <el-input
+      class="card-input"
+      v-model="notesInput.type"
+      placeholder="Type"
+    ></el-input>
+    <el-input
+      class="card-input"
+      v-model="notesInput.service"
+      placeholder="Service"
+    ></el-input>
+    <el-button type="primary" @click="handleSubmit">Add service</el-button>
   </el-card>
 </template>
 <script setup>
 const notesInput = reactive({
-  title: "",
-  note: "",
+  sailing: "",
+  date: "",
+  type: "",
+  service: "",
 });
 
 const { supabase } = useSupabase();
 const { user } = useAuth();
 
 const handleSubmit = async () => {
-  if (!notesInput.title || !notesInput.note) return;
+  if (!notesInput.sailing || !notesInput.service) return;
   await supabase.from("notes").insert({
-    title: notesInput.title,
-    note: notesInput.note,
+    sailing: notesInput.sailing,
+    date: notesInput.date,
+    type: notesInput.type,
+    service: notesInput.service,
     user_id: user.value.id,
   });
-  notesInput.title = "";
-  notesInput.note = "";
+  (notesInput.sailing = ""),
+    (notesInput.date = ""),
+    (notesInput.type = ""),
+    (notesInput.service = "");
 };
 </script>
 
@@ -34,13 +54,11 @@ const handleSubmit = async () => {
 .card {
   padding: 1.5rem;
   display: flex;
-  flex-direction: column;
+
+  /* flex-direction: row; */
 }
-input,
-textarea {
-  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+.card-input {
   margin-bottom: 0.5rem;
   border-radius: 0.25rem;
-  padding: 0.25rem;
 }
 </style>

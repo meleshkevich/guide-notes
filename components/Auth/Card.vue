@@ -51,7 +51,7 @@ const handleSubmit = async () => {
   try {
     if (authState.value == "login") {
       await signIn({ email: input.email, password: input.password });
-      navigateTo("/profile");
+      navigateTo("/services");
       console.log("loggedin user::", user);
     } else {
       await signUp({ email: input.email, password: input.password });
