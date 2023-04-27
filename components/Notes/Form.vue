@@ -1,3 +1,14 @@
+<template>
+  <el-card class="card">
+    <el-input v-model="notesInput.title" placeholder="Notes title" />
+    <el-input
+      type="textarea"
+      v-model="notesInput.note"
+      placeholder="My notes"
+    ></el-input>
+    <el-button type="primary" @click="handleSubmit">Save notes</el-button>
+  </el-card>
+</template>
 <script setup>
 const notesInput = reactive({
   title: "",
@@ -18,13 +29,7 @@ const handleSubmit = async () => {
   notesInput.note = "";
 };
 </script>
-<template>
-  <NCard class="card">
-    <input v-model="notesInput.title" placeholder="Notes title" />
-    <textarea v-model="notesInput.note" placeholder="My notes"></textarea>
-    <NButton @click="handleSubmit">Save notes</NButton>
-  </NCard>
-</template>
+
 <style scoped>
 .card {
   padding: 1.5rem;

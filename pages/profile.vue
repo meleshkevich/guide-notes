@@ -1,13 +1,32 @@
+<template>
+  <div>
+    <div class="container">
+      <h3>My Notes</h3>
+      <NotesForm />
+      <div class="card-container" v-if="notesResponse.data">
+        <el-card class="card" v-for="note in notesResponse.data" :key="note.id">
+          <h2>{{ note.title }}</h2>
+          <p>{{ note.note }}</p>
+          <p class="delete" @click="deleteNote(note.id)">X - delete</p>
+        </el-card>
+      </div>
+    </div>
+  </div>
+</template>
 <script setup>
 const { supabase } = useSupabase();
 const { user } = useAuth();
 const notesResponse = ref({});
 
 if (process.client) {
-  notesResponse.value = await supabase
-    .from("notes")
-    .select()
-    .eq("user_id", user.value.id);
+  notesResponse.value = await supabase;
+  // show notes from current user
+  // .from("notes")
+  // .select()
+  // .eq("user_id", user.value.id);
+
+  // show all notes from DB
+  notesResponse.value = await supabase.from("notes").select();
 }
 const deleteNote = async (e) => {
   await supabase.from("notes").delete().eq("id", e);
@@ -15,21 +34,7 @@ const deleteNote = async (e) => {
 };
 definePageMeta({ middleware: "auth" });
 </script>
-<template>
-  <div>
-    <div class="container">
-      <h3>My Notes</h3>
-      <NotesForm />
-      <div class="card-container" v-if="notesResponse.data">
-        <NCard class="card" v-for="note in notesResponse.data" :key="note.id">
-          <h2>{{ note.title }}</h2>
-          <p>{{ note.note }}</p>
-          <p class="delete" @click="deleteNote(note.id)">X - delete</p>
-        </NCard>
-      </div>
-    </div>
-  </div>
-</template>
+
 <style scoped>
 .container {
   max-width: 50%;

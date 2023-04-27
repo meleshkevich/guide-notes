@@ -1,5 +1,35 @@
+<template>
+  <div>
+    <el-card class="card">
+      <div v-if="!showEmailConfirmMessage">
+        <h3>{{ authState }}</h3>
+        <div class="input-container">
+          <el-input v-model="input.email" placeholder="Email" />
+          <el-input
+            v-model="input.password"
+            placeholder="Password"
+            type="password"
+          />
+        </div>
+        <el-button type="primary" @click="handleSubmit">Submit</el-button>
+
+        <p v-if="authError" class="error">{{ authError }}</p>
+        <p @click="toggleAuthState">
+          {{
+            authState === "login"
+              ? "Dont have an account? Create one now!"
+              : "Already have an account ? go ahead and login!"
+          }}
+        </p>
+      </div>
+      <div v-else>
+        <h3>Check your mail for confirmation message</h3>
+      </div>
+    </el-card>
+  </div>
+</template>
 <script setup>
-const authState = (ref < "login") | ("singup" > "login");
+const authState = ref("login");
 const authError = ref("");
 const showEmailConfirmMessage = ref(false);
 const input = reactive({
@@ -33,36 +63,7 @@ const handleSubmit = async () => {
   }
 };
 </script>
-<template>
-  <div>
-    <NCard class="card">
-      <div v-if="!showEmailConfirmMessage">
-        <h3>{{ authState }}</h3>
-        <div class="input-container">
-          <input v-model="input.email" placeholder="Email" />
-          <input
-            v-model="input.password"
-            placeholder="Password"
-            type="password"
-          />
-        </div>
-        <NButton @click="handleSubmit">Submit</NButton>
 
-        <p v-if="authError" class="error">{{ authError }}</p>
-        <p @click="toggleAuthState">
-          {{
-            authState === "login"
-              ? "Dont have an account? Create one now!"
-              : "Already have an account ? go ahead and login!"
-          }}
-        </p>
-      </div>
-      <div v-else>
-        <h3>Check your mail for confirmation message</h3>
-      </div>
-    </NCard>
-  </div>
-</template>
 <style scoped>
 .card {
   padding: 1rem;
@@ -87,7 +88,7 @@ const handleSubmit = async () => {
 }
 p {
   color: blue;
-  font-size: 0.5rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 .error {
