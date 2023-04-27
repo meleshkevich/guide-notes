@@ -24,7 +24,6 @@ onMounted(() => {
     user.value.id === "5ef9d62d-5162-439e-9760-d5f2e265d853"
       ? (admin.value = true)
       : (admin.value = false);
-    console.log(user.value.id, "user.value.id");
   }, 0);
 });
 </script>

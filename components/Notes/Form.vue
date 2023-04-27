@@ -5,11 +5,17 @@
       v-model="notesInput.sailing"
       placeholder="Sailing"
     />
-    <el-input
+    <!-- <el-input
       class="card-input"
       v-model="notesInput.date"
       placeholder="Date"
-    ></el-input>
+    ></el-input> -->
+    <el-date-picker
+      v-model="notesInput.date"
+      type="date"
+      placeholder="Pick a day"
+      size="default"
+    />
     <el-input
       class="card-input"
       v-model="notesInput.type"

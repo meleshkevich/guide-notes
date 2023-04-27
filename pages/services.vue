@@ -6,6 +6,8 @@
       <div class="card-container" v-if="notesResponse.data">
         <el-card class="card" v-for="note in notesResponse.data" :key="note.id">
           <h2>{{ note.sailing }}</h2>
+          <p>{{ note.date }}</p>
+          <p>{{ note.type }}</p>
           <p>{{ note.service }}</p>
           <p class="delete" @click="deleteNote(note.id)">X - delete</p>
         </el-card>
