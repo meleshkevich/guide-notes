@@ -33,6 +33,9 @@
   </el-card>
 </template>
 <script setup>
+import { useDataStore } from "~/stores/data";
+const dataStore = useDataStore();
+
 const { supabase } = useSupabase();
 const { user } = useAuth();
 const { isAdmin, userData } = useUser();
@@ -41,67 +44,14 @@ const tableData = ref([]);
 definePageMeta({ middleware: "auth" });
 
 const fetchData = async () => {
-  tableData.value = [];
-  const notesResponse = await supabase.from("notes").select();
-  // show notes from current user
-  // .from("notes")
-  // .select()
-  // .eq("user_id", user.value.id);
-
-  // show all notes from DB
-  notesResponse.data.forEach((el) => {
-    tableData.value.push({
-      id: el.id,
-      sailing: el.sailing,
-      date: el.date,
-      type: el.type,
-      service: el.service,
-      assigned_to: el.assigned_to,
-    });
-  });
+  tableData.value = await dataStore.fetchData();
 };
 
-if (process.client) {
-  const notesResponse = await supabase.from("notes").select();
-  // show notes from current user
-  // .from("notes")
-  // .select()
-  // .eq("user_id", user.value.id);
-
-  // show all notes from DB
-  notesResponse.data.forEach(async (el) => {
-    const res = await supabase
-      .from("users")
-      .select()
-      .eq("user_id", el.assigned_to);
-    const guideName = `${res.data[0].first_name} ${res.data[0].last_name}`;
-    console.log(guideName, "res");
-    tableData.value.push({
-      id: el.id,
-      sailing: el.sailing,
-      date: el.date,
-      type: el.type,
-      service: el.service,
-      assigned_to: guideName,
-    });
-  });
-}
-
-onMounted(() => {
-  setTimeout(() => {
-    setRowsIndexes();
-    guideName();
-    console.log(tableData.value, "tableData.value");
-  }, 0);
+onMounted(async () => {
+  setTimeout(async () => {
+    tableData.value = await dataStore.fetchData();
+  }, 500);
 });
-
-const guideName = async () => {
-  const uuid = "5ef9d62d-5162-439e-9760-d5f2e265d853";
-  const res = await supabase.from("users").select().eq("user_id", uuid);
-
-  console.log(res.data[0].first_name, "notesResponse guide name");
-  return "completed guide name";
-};
 
 const setRowsIndexes = () => {
   let selectBtns = document.querySelectorAll(".select-btn");
@@ -115,9 +65,9 @@ const setRowsIndexes = () => {
 };
 
 const handleSelect = async (e) => {
-  // await supabase.from("notes").delete().eq("id", e);
-
+  setRowsIndexes();
   const rowIndex = e.parentNode.getAttribute("row");
+  console.log(rowIndex, "rowIndex");
   const id = tableData.value[rowIndex].id;
   await supabase
     .from("notes")
@@ -128,7 +78,9 @@ const handleSelect = async (e) => {
   fetchData();
 };
 const handleDelete = async (e) => {
+  setRowsIndexes();
   const rowIndex = e.parentNode.getAttribute("row");
+
   const id = tableData.value[rowIndex].id;
   await supabase.from("notes").delete().eq("id", id);
   fetchData();

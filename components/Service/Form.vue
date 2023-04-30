@@ -30,6 +30,8 @@
   </el-card>
 </template>
 <script setup>
+import { useDataStore } from "~/stores/data";
+const dataStore = useDataStore();
 const notesInput = reactive({
   sailing: "",
   date: "",
