@@ -67,7 +67,6 @@ const setRowsIndexes = () => {
 const handleSelect = async (e) => {
   setRowsIndexes();
   const rowIndex = e.parentNode.getAttribute("row");
-  console.log(rowIndex, "rowIndex");
   const id = tableData.value[rowIndex].id;
   await supabase
     .from("notes")

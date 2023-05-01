@@ -3,6 +3,20 @@ export const useDataStore = definePiniaStore("data-store", () => {
   const { user } = useAuth();
   const { isAdmin, userData } = useUser();
   const tableData = ref([]);
+  const notesInput = reactive({
+    sailing: "",
+    date: "",
+    type: "",
+    service: "",
+  });
+
+  const resetNotes = () => {
+    console.log("reset notes");
+    (notesInput.sailing = ""),
+      (notesInput.date = ""),
+      (notesInput.type = ""),
+      (notesInput.service = "");
+  };
 
   const fetchData = async () => {
     tableData.value = [];
@@ -38,6 +52,8 @@ export const useDataStore = definePiniaStore("data-store", () => {
   };
 
   return {
+    notesInput,
     fetchData,
+    resetNotes,
   };
 });

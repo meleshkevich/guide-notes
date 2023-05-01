@@ -32,29 +32,22 @@
 <script setup>
 import { useDataStore } from "~/stores/data";
 const dataStore = useDataStore();
-const notesInput = reactive({
-  sailing: "",
-  date: "",
-  type: "",
-  service: "",
-});
+const notesInput = reactive(dataStore.notesInput);
 
 const { supabase } = useSupabase();
 const { user } = useAuth();
 
 const handleSubmit = async () => {
-  if (!notesInput.sailing || !notesInput.service) return;
-  await supabase.from("notes").insert({
-    sailing: notesInput.sailing,
-    date: notesInput.date,
-    type: notesInput.type,
-    service: notesInput.service,
-    user_id: user.value.id,
-  });
-  (notesInput.sailing = ""),
-    (notesInput.date = ""),
-    (notesInput.type = ""),
-    (notesInput.service = "");
+  console.log(dataStore.notesInput.sailing);
+  // if (!notesInput.value.sailing || !notesInput.service) return;
+  // await supabase.from("notes").insert({
+  // (dataStore.notesInput.value.sailing = notesInput.sailing),
+  //   (dataStore.notesInput.value.date = notesInput.date),
+  //   (dataStore.notesInput.value.type = notesInput.type),
+  //   (dataStore.notesInput.value.service = notesInput.service),
+  //   (dataStore.notesInput.value.user_id = user.value.id),
+  // });
+  dataStore.resetNotes();
 };
 </script>
 
